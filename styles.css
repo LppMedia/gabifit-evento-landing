@@ -219,11 +219,16 @@ a  { text-decoration: none; color: inherit; }
 .hero__inner {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3rem;
+  gap: 1.5rem;
   align-items: center;
   padding-block: 5rem;
   position: relative;
   z-index: 2;
+}
+
+.hero__text-top,
+.hero__text-bottom {
+  /* stacked naturally on mobile */
 }
 
 .hero__eyebrow {
@@ -359,8 +364,18 @@ a  { text-decoration: none; color: inherit; }
 }
 
 @media (min-width: 820px) {
-  .hero__inner { grid-template-columns: 1fr 1fr; }
-  .hero__img-frame { width: 400px; }
+  .hero__inner {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "top    photo"
+      "bottom photo";
+    gap: 0 3rem;
+  }
+  .hero__text-top    { grid-area: top; align-self: end; }
+  .hero__text-bottom { grid-area: bottom; align-self: start; padding-top: 1.25rem; }
+  .hero__visual      { grid-area: photo; }
+  .hero__img-frame   { width: 400px; }
 }
 
 /* ══════════════════════════════════════════════════
