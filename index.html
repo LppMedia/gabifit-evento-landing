@@ -9,6 +9,11 @@
 </head>
 <body>
 
+  <!-- ══ URGENCY TICKER BAR ══ -->
+  <div id="urgency-bar">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
+
   <!-- ══ NAVBAR ══ -->
   <nav class="navbar" id="navbar">
     <div class="container navbar__inner">
@@ -25,7 +30,7 @@
 
       <div class="hero__text-top">
         <div class="hero__eyebrow">
-          <span class="pill pill--lilac">🌸 Evento especial · Abril 2026</span>
+          <span class="pill pill--lilac">🌸 Evento especial · Mayo 2026</span>
           <span class="pill pill--yellow">Cupos limitados</span>
         </div>
 
@@ -59,8 +64,8 @@
         </p>
 
         <div class="hero__meta">
-          <div class="hero__meta-chip">📅 Fecha por confirmar</div>
-          <div class="hero__meta-chip">📍 Lugar por confirmar</div>
+          <div class="hero__meta-chip">📅 24 de Mayo, 2026</div>
+          <div class="hero__meta-chip">📍 Monarca Bistro · Santiago</div>
           <div class="hero__meta-chip">🌿 4 invitadas especiales</div>
         </div>
 
@@ -399,6 +404,35 @@
     </div>
   </section>
 
+  <!-- ══ VENUE ══ -->
+  <section class="venue" id="lugar">
+    <div class="container venue__inner">
+
+      <div class="venue__header">
+        <p class="label">El lugar</p>
+        <h2 class="section-title">Un espacio tan bonito<br><em>como la experiencia.</em></h2>
+        <p class="section-body" style="margin-inline: auto; text-align: center; margin-top: 0.75rem;">
+          Monarca Bistro nos abre sus puertas para crear el ambiente perfecto — garden, íntimo y lleno de detalles.
+        </p>
+        <div class="venue__chips">
+          <div class="venue__chip">📍 Monarca Bistro</div>
+          <div class="venue__chip">🗺️ Av. Benito Juárez N.62, Villa Olga, Santiago</div>
+          <div class="venue__chip">📅 24 de Mayo, 2026</div>
+        </div>
+      </div>
+
+      <div class="venue__gallery">
+        <div class="venue__gallery-main">
+          <img src="assets/Restaurantgabifit.jpg" alt="Monarca Bistro — Lugar del evento" />
+        </div>
+        <div class="venue__gallery-side">
+          <img src="assets/Gabifitlugarevento.jpg" alt="Espacio garden del evento" />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ══ TICKETS ══ -->
   <section class="tickets" id="tickets">
     <div class="container">
@@ -420,12 +454,13 @@
         <div class="ticket-card__body">
           <div class="ticket-card__alert">🌸 Cupos muy limitados — No dejes pasar esto</div>
           <ul class="ticket-card__list">
-            <li>Brunch garden completo incluido</li>
-            <li>Charlas con las 4 invitadas en vivo</li>
+            <li>Brunch garden completo (1 entrada + 1 plato fuerte)</li>
+            <li>Charlas en vivo con las 4 invitadas</li>
+            <li>Rifa exclusiva del evento 🎁</li>
             <li>Actividad de bienestar guiada</li>
-            <li>Ambiente garden de ensueño</li>
+            <li>Acceso a la experiencia completa</li>
             <li>Comunidad de mujeres extraordinarias</li>
-            <li>Sorpresas del evento 🌸</li>
+            <li>Llegas, disfrutas y te vas transformada 🌸</li>
           </ul>
           <a
             href="https://wa.me/18098939904?text=Hola%20Gabi%20%2C%20Quiero%20vivir%20esa%20experience%20con%20todas%20las%20chicas%20apuntame"
@@ -490,7 +525,7 @@
             <span class="faq-item__icon">+</span>
           </button>
           <div class="faq-item__a">
-            El precio de $2,500 pesos incluye todo: el brunch garden completo con comida y bebidas, las charlas en vivo con las 4 invitadas, la actividad de bienestar guiada y acceso a la experiencia completa del evento. No hay costos adicionales — llegas, disfrutas y te vas transformada.
+            El precio de $2,500 pesos incluye todo: el brunch garden completo (1 entrada y 1 plato fuerte), las charlas en vivo con las 4 invitadas, una rifa exclusiva, la actividad de bienestar guiada y acceso a la experiencia completa del evento. No hay costos adicionales — llegas, disfrutas y te vas transformada.
           </div>
         </div>
 
@@ -525,6 +560,63 @@
       <p class="footer__copy">© 2026 GabiFit. Todos los derechos reservados.</p>
     </div>
   </footer>
+
+  <!-- ══ URGENCY TICKER SCRIPT ══ -->
+  <script>
+    // Deadline: 24 de Abril 2026, 11:59 PM
+    const BRUNCH_DEADLINE = new Date('2026-05-24T23:59:59');
+    const PRICE = '2,500 DOP';
+
+    function pad(n) { return String(n).padStart(2,'0'); }
+
+    function getTimeLeft() {
+      const diff = BRUNCH_DEADLINE - Date.now();
+      if (diff <= 0) return null;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000)  / 60000);
+      const s = Math.floor((diff % 60000)    / 1000);
+      return { d, h, m, s };
+    }
+
+    function urgencyMsg(t) {
+      if (!t) return '🌸 ¡EL EVENTO YA COMENZÓ!';
+      if (t.d > 3) return `⚡ CUPOS CASI AGOTADOS — ${t.d} DÍAS PARA EL BRUNCH`;
+      if (t.d > 1) return `🔥 ¡SOLO ${t.d} DÍAS! RESERVA AHORA`;
+      if (t.d === 1) return '🚨 ¡MAÑANA ES EL EVENTO! ÚLTIMO MOMENTO';
+      return '🚨 ¡HOY ES EL DÍA! ÚLTIMAS HORAS PARA RESERVAR';
+    }
+
+    function buildSeg(timerHTML, msg) {
+      return `<span class="ticker-segment">
+        <span class="ticker-dot"></span>
+        ${msg}
+        <span class="ticker-dot"></span>
+        ENTRADA: <strong style="margin-left:4px">${PRICE}</strong>
+        <span class="ticker-dot"></span>
+        EL EVENTO ES EL <strong style="margin-left:4px">24 DE MAYO</strong>
+        <span class="ticker-dot"></span>
+        CUPOS MUY LIMITADOS
+        <span class="ticker-dot"></span>
+        TIEMPO RESTANTE: ${timerHTML}
+        <span class="ticker-dot"></span>
+        RESERVA POR WHATSAPP
+      </span>`;
+    }
+
+    function renderTicker() {
+      const t = getTimeLeft();
+      const msg = urgencyMsg(t);
+      const timerHTML = t
+        ? `<span class="ticker-timer">${t.d}d ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}</span>`
+        : `<span class="ticker-timer">¡YA!</span>`;
+      const seg = buildSeg(timerHTML, msg);
+      document.getElementById('ticker-track').innerHTML = seg.repeat(6);
+    }
+
+    renderTicker();
+    setInterval(renderTicker, 1000);
+  </script>
 
   <!-- ══ SCRIPTS ══ -->
   <script>
